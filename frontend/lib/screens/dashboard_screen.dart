@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/responsive_card_grid.dart';
 import '../widgets/mini_bar_chart.dart';
+import 'todo_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -16,7 +17,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final List<_NavItem> _navItems = [
     _NavItem(icon: Icons.dashboard_rounded, label: 'Dashboard'),
     _NavItem(icon: Icons.bar_chart_rounded, label: 'Relatórios'),
-    _NavItem(icon: Icons.people_alt_rounded, label: 'Clientes'),
+    _NavItem(icon: Icons.checklist_rounded, label: 'Tarefas'),   // <- era Clientes
     _NavItem(icon: Icons.settings_rounded, label: 'Config'),
   ];
 
@@ -32,15 +33,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
       bottomNavigationBar: isDesktop ? null : _buildBottomNav(),
       body: Row(
         children: [
-          // Navigation Rail para Desktop (bonus)
           if (isDesktop) _buildNavigationRail(),
-          // Conteúdo principal
           Expanded(
             child: _buildBody(),
           ),
         ],
       ),
     );
+  }
+
+  // Retorna o conteúdo da aba selecionada
+  Widget _buildBody() {
+    switch (_selectedIndex) {
+      case 2:
+        return const TodoScreen();
+      default:
+        return _buildDashboardBody();
+    }
   }
 
   AppBar _buildAppBar() {
@@ -134,14 +143,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  // Drawer lateral (Bônus)
   Widget _buildDrawer() {
     return Drawer(
       backgroundColor: const Color(0xFF0D0D1F),
       child: SafeArea(
         child: Column(
           children: [
-            // Drawer header
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
@@ -192,8 +199,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ],
               ),
             ),
-
-            // Menu items
             const SizedBox(height: 16),
             ..._navItems.asMap().entries.map(
               (entry) => _buildDrawerItem(
@@ -206,10 +211,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 },
               ),
             ),
-
             const Spacer(),
-
-            // Footer
             Container(
               margin: const EdgeInsets.all(16),
               padding: const EdgeInsets.all(16),
@@ -278,7 +280,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  // NavigationRail para Desktop
   Widget _buildNavigationRail() {
     return NavigationRail(
       backgroundColor: const Color(0xFF0D0D1F),
@@ -310,7 +311,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  // Bottom Navigation (Bônus)
   Widget _buildBottomNav() {
     return Container(
       decoration: BoxDecoration(
@@ -345,13 +345,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _buildBody() {
+  // Conteúdo original do dashboard
+  Widget _buildDashboardBody() {
     return SingleChildScrollView(
       padding: const EdgeInsets.only(top: 16, bottom: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header section
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
@@ -385,28 +385,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ],
             ),
           ),
-
           const SizedBox(height: 20),
-
-          // Layout indicator
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: _buildLayoutIndicator(),
           ),
-
           const SizedBox(height: 16),
-
-          // Cards responsivos
           const ResponsiveCardGrid(),
-
           const SizedBox(height: 8),
-
-          // Mini chart (Stack + Positioned bônus)
           const MiniBarChart(),
-
           const SizedBox(height: 8),
-
-          // Transações recentes
           _buildRecentTransactions(),
         ],
       ),
@@ -468,9 +456,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildRecentTransactions() {
     final transactions = [
-      _Transaction('Pagamento Cliente A', '+R\$ 12.400', true, Icons.arrow_downward_rounded),
-      _Transaction('Fornecedor XYZ', '-R\$ 3.200', false, Icons.arrow_upward_rounded),
-      _Transaction('Assinatura SaaS', '-R\$ 890', false, Icons.subscriptions_rounded),
+      _Transaction('Pagamento Cliente A', '+R\$ 12.400', true,
+          Icons.arrow_downward_rounded),
+      _Transaction(
+          'Fornecedor XYZ', '-R\$ 3.200', false, Icons.arrow_upward_rounded),
+      _Transaction('Assinatura SaaS', '-R\$ 890', false,
+          Icons.subscriptions_rounded),
       _Transaction('Venda Produto B', '+R\$ 5.750', true, Icons.sell_rounded),
     ];
 
@@ -499,7 +490,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 final t = entry.value;
                 final isLast = entry.key == transactions.length - 1;
                 return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 14),
                   decoration: BoxDecoration(
                     border: isLast
                         ? null
@@ -570,8 +562,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
   String _getFormattedDate() {
     final now = DateTime.now();
     final months = [
-      '', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+      '',
+      'Janeiro',
+      'Fevereiro',
+      'Março',
+      'Abril',
+      'Maio',
+      'Junho',
+      'Julho',
+      'Agosto',
+      'Setembro',
+      'Outubro',
+      'Novembro',
+      'Dezembro'
     ];
     return '${now.day} de ${months[now.month]} de ${now.year}';
   }

@@ -1,3 +1,4 @@
+// gasto_recorrente.dart
 import 'package:flutter/material.dart';
 
 enum FrequenciaGasto { mensal, anual, semanal }

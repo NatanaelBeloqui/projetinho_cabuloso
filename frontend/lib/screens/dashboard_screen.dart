@@ -1,8 +1,10 @@
+// dashboard_screen.dart
 import 'package:flutter/material.dart';
 import '../widgets/responsive_card_grid.dart';
 import '../widgets/mini_bar_chart.dart';
 import 'todo_screen.dart';
 import 'gastos/lista_gastos_screen.dart';
+import 'habitos/home_habitos_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -25,6 +27,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       case 3:
         return const ListaGastosScreen();
       case 4:
+        return const HomeHabitosScreen();
+      case 5:
         return _buildPlaceholder('Configurações', Icons.settings_rounded);
       default:
         return _buildDashboard();
@@ -181,7 +185,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isDesktop = screenWidth >= 900;
-    final isTablet = screenWidth >= 600;
 
     return Scaffold(
       backgroundColor: const Color(0xFF0A0A1A),
@@ -214,11 +217,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ],
             )
           : _buildBody(),
-      bottomNavigationBar: isDesktop
-          ? null
-          : isTablet
-              ? null
-              : _buildBottomNav(),
+      bottomNavigationBar:
+          isDesktop ? null : _buildBottomNav(),
     );
   }
 
@@ -252,7 +252,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           _buildDrawerItem(1, Icons.bar_chart_rounded, 'Relatórios'),
           _buildDrawerItem(2, Icons.checklist_rounded, 'Tarefas'),
           _buildDrawerItem(3, Icons.repeat_rounded, 'Gastos'),
-          _buildDrawerItem(4, Icons.settings_rounded, 'Configurações'),
+          _buildDrawerItem(4, Icons.self_improvement_rounded, 'Hábitos'),
+          _buildDrawerItem(5, Icons.settings_rounded, 'Configurações'),
         ],
       ),
     );
@@ -262,11 +263,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final selected = _selectedIndex == index;
     return ListTile(
       leading: Icon(icon,
-          color: selected ? const Color(0xFF4361EE) : Colors.white.withOpacity(0.4)),
+          color: selected
+              ? const Color(0xFF4361EE)
+              : Colors.white.withOpacity(0.4)),
       title: Text(label,
           style: TextStyle(
               color: selected ? Colors.white : Colors.white.withOpacity(0.4),
-              fontWeight: selected ? FontWeight.w600 : FontWeight.normal)),
+              fontWeight:
+                  selected ? FontWeight.w600 : FontWeight.normal)),
       selected: selected,
       selectedTileColor: const Color(0xFF4361EE).withOpacity(0.1),
       onTap: () {
@@ -284,7 +288,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           setState(() => _selectedIndex = index),
       labelType: NavigationRailLabelType.all,
       selectedIconTheme: const IconThemeData(color: Color(0xFF4361EE)),
-      selectedLabelTextStyle: const TextStyle(color: Color(0xFF4361EE)),
+      selectedLabelTextStyle:
+          const TextStyle(color: Color(0xFF4361EE)),
       unselectedIconTheme:
           IconThemeData(color: Colors.white.withOpacity(0.3)),
       unselectedLabelTextStyle:
@@ -299,6 +304,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         NavigationRailDestination(
             icon: Icon(Icons.repeat_rounded), label: Text('Gastos')),
         NavigationRailDestination(
+            icon: Icon(Icons.self_improvement_rounded),
+            label: Text('Hábitos')),
+        NavigationRailDestination(
             icon: Icon(Icons.settings_rounded), label: Text('Config')),
       ],
     );
@@ -312,6 +320,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       selectedItemColor: const Color(0xFF4361EE),
       unselectedItemColor: Colors.white.withOpacity(0.3),
       type: BottomNavigationBarType.fixed,
+      selectedFontSize: 10,
+      unselectedFontSize: 10,
+      iconSize: 22,
       items: const [
         BottomNavigationBarItem(
             icon: Icon(Icons.dashboard_rounded), label: 'Dashboard'),
@@ -321,6 +332,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             icon: Icon(Icons.checklist_rounded), label: 'Tarefas'),
         BottomNavigationBarItem(
             icon: Icon(Icons.repeat_rounded), label: 'Gastos'),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.self_improvement_rounded), label: 'Hábitos'),
         BottomNavigationBarItem(
             icon: Icon(Icons.settings_rounded), label: 'Config'),
       ],

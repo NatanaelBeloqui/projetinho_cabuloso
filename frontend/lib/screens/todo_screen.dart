@@ -168,62 +168,66 @@ class _TodoScreenState extends State<TodoScreen>
 
         const SizedBox(height: 16),
 
-        // Campo de adicionar tarefa
+        // Campo de adicionar tarefa — animação de entrada com ScaleTransition
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Container(
-            decoration: BoxDecoration(
-              color: const Color(0xFF16213E),
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: Colors.white.withOpacity(0.08),
-              ),
-            ),
-            child: Row(
-              children: [
-                const SizedBox(width: 16),
-                const Icon(
-                  Icons.add_task_rounded,
-                  color: Color(0xFF4361EE),
-                  size: 20,
+          child: ScaleTransition(
+            scale: _fabAnim,
+            child: Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFF16213E),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.08),
                 ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: 'Nova tarefa financeira...',
-                      hintStyle: TextStyle(
-                        color: Colors.white.withOpacity(0.3),
+              ),
+              child: Row(
+                children: [
+                  const SizedBox(width: 16),
+                  const Icon(
+                    Icons.add_task_rounded,
+                    color: Color(0xFF4361EE),
+                    size: 20,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      style: const TextStyle(
+                        color: Colors.white,
                         fontSize: 14,
                       ),
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    onSubmitted: (_) => _adicionarTarefa(),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: _adicionarTarefa,
-                  child: Container(
-                    margin: const EdgeInsets.all(8),
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF4361EE),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Icon(
-                      Icons.arrow_upward_rounded,
-                      color: Colors.white,
-                      size: 18,
+                      decoration: InputDecoration(
+                        hintText: 'Nova tarefa financeira...',
+                        hintStyle: TextStyle(
+                          color: Colors.white.withOpacity(0.3),
+                          fontSize: 14,
+                        ),
+                        border: InputBorder.none,
+                        contentPadding:
+                            const EdgeInsets.symmetric(vertical: 16),
+                      ),
+                      onSubmitted: (_) => _adicionarTarefa(),
                     ),
                   ),
-                ),
-              ],
+                  GestureDetector(
+                    onTap: _adicionarTarefa,
+                    child: Container(
+                      margin: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF4361EE),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Icon(
+                        Icons.arrow_upward_rounded,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -289,7 +293,8 @@ class _TodoScreenState extends State<TodoScreen>
         ),
       ),
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         leading: GestureDetector(
           onTap: () => _toggleTarefa(tarefa),
           child: AnimatedContainer(
@@ -325,8 +330,9 @@ class _TodoScreenState extends State<TodoScreen>
                 : Colors.white.withOpacity(0.85),
             fontSize: 14,
             fontWeight: FontWeight.w500,
-            decoration:
-                tarefa.concluida ? TextDecoration.lineThrough : TextDecoration.none,
+            decoration: tarefa.concluida
+                ? TextDecoration.lineThrough
+                : TextDecoration.none,
             decorationColor: Colors.white.withOpacity(0.35),
           ),
         ),

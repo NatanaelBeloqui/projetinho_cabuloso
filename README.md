@@ -142,4 +142,9 @@ Sem pacotes externos — tudo com Flutter puro.
 
 ---
 
+<img width="1920" height="945" alt="chrome_VvrMzhTJha" src="https://github.com/user-attachments/assets/e0832596-1fa1-4f17-b4e1-73416f15a0c6" />
+
+<img width="1920" height="945" alt="chrome_GGYAnmbSff" src="https://github.com/user-attachments/assets/4b67fed7-fe43-402e-b2ce-b36e05c4934a" />
+
+
 *Projeto acadêmico — SENAC Joinville*
